@@ -14,11 +14,15 @@ pipeline {
             }
         }
         stage ('Build') {
-            sh 'mvn install'
+            steps {
+                sh 'mvn install'
+            }
         }
         stage('Results') {
-            junit 'target/surefire-reports/**/*.xml'
-            archive 'target/*.jar'
+            steps {
+                junit 'target/surefire-reports/**/*.xml'
+                archive 'target/*.jar'
+            }
         }
     }
 }
