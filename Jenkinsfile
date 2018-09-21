@@ -1,8 +1,7 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven 3.3.9'
-        jdk 'jdk8'
+    tools { // Tools must be declared in Jenkins
+        maven 'Maven 3.5.4'
     }
     stages {
         stage ('Initialize') {
