@@ -18,7 +18,7 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                     mvn --version
-                    mvn install
+                    mvn -e -X install
                 '''
             }
         }
