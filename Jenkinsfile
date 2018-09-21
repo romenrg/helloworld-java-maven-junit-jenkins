@@ -1,23 +1,23 @@
-node {
+pipeline {
     agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
     stages {
-        def mvnHome
-        stage('Preparation') { // for display purposes
-            // Get some code from a GitHub repository
-            git 'https://github.com/romenrg/helloworld-java-maven-junit-jenkins'
-            // NOTE: This 'M3' Maven tool must be configured in Jenkins
-            mvnHome = tool 'M3'
-        }
-        stage('Build') {
-            // Run the maven build
-            if (isUnix()) {
-                sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
-            } else {
-                bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
             }
         }
+        stage ('Build') {
+            sh 'mvn install'
+        }
         stage('Results') {
-            junit '**/target/surefire-reports/TEST-*.xml'
+            junit 'target/surefire-reports/**/*.xml'
             archive 'target/*.jar'
         }
     }
